@@ -4,7 +4,7 @@ const ThemeContext = createContext(null)
 
 export function ThemeProvider({ children }) {
 	const [theme, setTheme] = useState(
-		() => localStorage.getItem('ratio-kitchen-theme') || 'light'
+		() => localStorage.getItem('ratio-kitchen-theme') || 'dark'
 	)
 
 	useEffect(() => {
