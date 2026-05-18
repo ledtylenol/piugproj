@@ -16,6 +16,5 @@
 	"devDependencies": {
 		"@vitejs/plugin-react": "^4.2.1",
 		"vite": "^5.1.0"
-	},
-	"packageManager": "11.1.2"
+	}
 }
