@@ -26,9 +26,9 @@ export default function Login() {
 
 	const handleLogin = () => {
 		const clean = username.trim().toLowerCase()
-		if (!clean) { setError('Please enter a username.'); return }
+		if (!clean) { setError('Introdu un nume de utilizator.'); return }
 		if (!/^[a-z0-9_-]+$/.test(clean)) {
-			setError('Username can only contain letters, numbers, hyphens, and underscores.')
+			setError('Numele utilizatorului poate avea doar litere, cifre, - si _')
 			return
 		}
 		addKnownUser(clean)
