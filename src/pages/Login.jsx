@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUser } from '../context/UserContext'
 
-const KNOWN_USERS_KEY = 'ratio-kitchen-known-users'
+const KNOWN_USERS_KEY = 'cartea-pe-parti-utilizatori'
 
 function getKnownUsers() {
 	try {
@@ -10,11 +10,10 @@ function getKnownUsers() {
 	} catch { return [] }
 }
 
-function addKnownUser(username) {
-	const users = getKnownUsers()
-	if (!users.includes(username)) {
-		localStorage.setItem(KNOWN_USERS_KEY, JSON.stringify([...users, username]))
-	}
+function saveWithUserFirst(username) {
+	const updated = [username, ...getKnownUsers().filter(u => u !== username)]
+	localStorage.setItem(KNOWN_USERS_KEY, JSON.stringify(updated))
+	return updated
 }
 
 export default function Login() {
@@ -22,16 +21,20 @@ export default function Login() {
 	const navigate = useNavigate()
 	const [username, setUsername] = useState('')
 	const [error, setError] = useState('')
-	const knownUsers = getKnownUsers()
+	const [knownUsers, setKnownUsers] = useState([])
+
+	useEffect(() => {
+		setKnownUsers(getKnownUsers())
+	}, [])
 
 	const handleLogin = () => {
 		const clean = username.trim().toLowerCase()
-		if (!clean) { setError('Introdu un nume de utilizator.'); return }
+		if (!clean) { setError('Va rog sa introduceti un nume.'); return }
 		if (!/^[a-z0-9_-]+$/.test(clean)) {
-			setError('Numele utilizatorului poate avea doar litere, cifre, - si _')
+			setError('Numele pot contine doar litere, cifre, - si _.')
 			return
 		}
-		addKnownUser(clean)
+		setKnownUsers(saveWithUserFirst(clean))
 		login(clean)
 		navigate('/')
 	}
@@ -41,6 +44,7 @@ export default function Login() {
 	}
 
 	const handleQuickLogin = (name) => {
+		setKnownUsers(saveWithUserFirst(name))
 		login(name)
 		navigate('/')
 	}
@@ -49,20 +53,20 @@ export default function Login() {
 		<div className="login-page">
 			<div className="login-card">
 				<div className="login-brand">
-					<span className="logo-the">Cartea</span>
+					<span className="login-brand-the">Cartea</span>
 					<span className="login-brand-main">Pe Parti</span>
 				</div>
 
 				<div className="login-divider" />
 
 				<div className="login-body">
-					<h1 className="login-heading">Bine ai revenit</h1>
+					<h1 className="login-heading">Bine ati revenit.</h1>
 					<p className="login-sub">
 						Introdu numele de utilizator pentru a accesa cartea voastra personala.
 					</p>
 
 					<div className="login-field">
-						<label className="login-label">Nume De Utilizator</label>
+						<label className="login-label">Nume de utilizator</label>
 						<input
 							className={`login-input ${error ? 'input-error' : ''}`}
 							type="text"
@@ -79,7 +83,7 @@ export default function Login() {
 					</div>
 
 					<button className="btn-login" onClick={handleLogin}>
-						Deschide Cartea →
+						Deschide cartea →
 					</button>
 				</div>
 
