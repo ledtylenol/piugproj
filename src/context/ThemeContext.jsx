@@ -2,9 +2,15 @@ import { createContext, useContext, useState, useEffect } from 'react'
 
 const ThemeContext = createContext(null)
 
+export const THEMES = [
+	{ id: 'light', label: 'Light' },
+	{ id: 'dark', label: 'Dark' },
+	{ id: 'dark-blue', label: 'Dark Blue' },
+]
+
 export function ThemeProvider({ children }) {
 	const [theme, setTheme] = useState(
-		() => localStorage.getItem('ratio-kitchen-theme') || 'dark'
+		() => localStorage.getItem('ratio-kitchen-theme') || 'light'
 	)
 
 	useEffect(() => {
@@ -12,10 +18,8 @@ export function ThemeProvider({ children }) {
 		localStorage.setItem('ratio-kitchen-theme', theme)
 	}, [theme])
 
-	const toggle = () => setTheme(t => t === 'light' ? 'dark' : 'light')
-
 	return (
-		<ThemeContext.Provider value={{ theme, toggle }}>
+		<ThemeContext.Provider value={{ theme, setTheme }}>
 			{children}
 		</ThemeContext.Provider>
 	)

@@ -1,14 +1,14 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useUser } from '../context/UserContext'
 
-import { useTheme } from '../context/ThemeContext'
+import { useTheme, THEMES } from '../context/ThemeContext'
 export default function Layout() {
 	const location = useLocation()
 	const navigate = useNavigate()
 	const { currentUser, logout } = useUser()
 
 	// inside Layout:
-	const { theme, toggle } = useTheme()
+	const { theme, setTheme } = useTheme()
 
 	// in the nav, next to the user section:
 	const handleLogout = () => {
@@ -35,10 +35,15 @@ export default function Layout() {
 							<span className="nav-username">{currentUser}</span>
 							<button className="nav-logout" onClick={handleLogout}>Iesi din cont</button>
 						</div>
-
-						<button className="theme-toggle" onClick={toggle} title="Toggle theme">
-							Schimba tema ◑
-						</button>
+						<select
+							className="theme-select"
+							value={theme}
+							onChange={e => setTheme(e.target.value)}
+						>
+							{THEMES.map(t => (
+								<option key={t.id} value={t.id}>{t.label}</option>
+							))}
+						</select>
 						<Link to="/new" className="nav-cta">
 							+ Reteta Noua
 						</Link>

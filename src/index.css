@@ -39,6 +39,19 @@
 	--border-light: #2e2520;
 }
 
+[data-theme="dark-blue"] {
+	--cream: #0f1117;
+	--cream-dark: #161b27;
+	--ink: #e8edf5;
+	--ink-mid: #8a9bb5;
+	--ink-light: #4a5568;
+	--accent: #4a90d9;
+	--accent-light: #6aaee8;
+	--accent-bg: #0d1a2e;
+	--border: #1e2d45;
+	--border-light: #172038;
+}
+
 html {
 	scroll-behavior: smooth;
 }
@@ -1354,4 +1367,33 @@ textarea {
 	font-size: 1.2rem;
 	font-style: italic;
 	color: var(--cream);
+}
+
+.theme-select {
+	font-family: var(--font-mono);
+	font-size: 0.72rem;
+	letter-spacing: 0.04em;
+	color: var(--ink-light);
+	background: transparent;
+	border: 1px solid var(--border);
+	border-radius: 2px;
+	padding: 0.3rem 0.5rem;
+	cursor: pointer;
+	transition: border-color 0.2s, color 0.2s;
+}
+
+.theme-select:hover {
+	border-color: var(--ink-mid);
+	color: var(--ink);
+}
+
+.theme-select:focus {
+	outline: none;
+	border-color: var(--accent);
+}
+
+/* options inherit OS styling, this just handles the trigger */
+.theme-select option {
+	background: var(--cream);
+	color: var(--ink);
 }
